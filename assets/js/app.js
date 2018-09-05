@@ -10,7 +10,7 @@ var qa=[
         right:"sugar cube, angostura bitter, bourbon"
     },
     q4 ={ question:"what is in a Manhattan?",
-    options:["5cL Rye whiskey, 2cL Sweet red vermouth, Dash of Angostura bitters","mint leaves, sugar, kentucky bourbon",],
+    options:["5cL Rye whiskey, 2cL Sweet red vermouth, Dash of Angostura bitters","mint leaves, sugar, kentucky bourbon","3cl gin, 3cl Apricot brandy, 3cl Calvados",],
     right:"5cL Rye whiskey, 2cL Sweet red vermouth, Dash of Angostura bitters"
     },
     q5={ question:"what is in a John Collins?",
@@ -22,6 +22,7 @@ var qa=[
     right:"3cl gin, 3cl Apricot brandy, 3cl Calvados"
     },
 ]
+
 $(document).ready( function(){
     var ran =  Math.floor(Math.random()*qa.length);
     currq = qa[ran];
@@ -34,6 +35,7 @@ $(document).ready( function(){
 function display(y){
     $("#question").empty(); 
     $("#answers").empty(); 
+    $("#result").empty(); 
    // document.getElementById("question").innerText = qo[0].question;
    $("#question").text(y.question)
     y.options.forEach(x => {
@@ -52,8 +54,13 @@ $(document).on("click", ".answer", function(){
     console.log(this)
     var userClicked = this;
     $(userClicked).text();
+    stopwatch.reset();
     if ($(userClicked).text() === currq.right) {
         console.log("correct!")
+        $("#result").text("correct!");
+    }
+    else{
+        console.log("loser!")
     }
     next();
 })//end .answer click event
@@ -62,7 +69,68 @@ $(document).on("click", ".answer", function(){
 function next(){
   var ran =  Math.floor(Math.random()*qa.length);
     
-    currq = qa[ran];
+    currq =  qa[ran];
     console.log("this is my random number: " +currq)
     display(currq);
 }//end next()
+
+
+//begin clock
+ //  Variable that will hold our setInterval that runs the stopwatch
+ var intervalId;
+  
+ // prevents the clock from being sped up unnecessarily
+ var clockRunning = false;
+ // tells how much time to put on the clock
+ var timesUp = false;
+ var timeOut;
+
+ var stopwatch = {
+ time:6,
+ //start reset
+ reset: function() {
+    stopwatch.time = 6;
+    next();
+    stopwatch.start();
+    $("#display").text(stopwatch.time);
+    console.log("called reset()");
+
+ },
+ //end reset
+    start: function() {
+  
+    // DONE: Use setInterval to start the count here and set the clock to running.
+    if (!clockRunning) {
+      intervalId = setInterval(stopwatch.count, 1000);
+      clockRunning = true;
+    } 
+  },
+  count: function() {
+  
+    // DONE: increment time by 1, remember we cant use "this" here.
+    stopwatch.time--;
+    console.log("i'm in count()");
+
+    // DONE: Use the variable we just created to show the converted time in the "display" div.
+    $("#display").text(stopwatch.time);
+    if (stopwatch.time === 0 ) {
+        //alert("times up!");
+    stopwatch.reset();
+    timesUp = true;
+    //stopwatch.reset();
+    }
+  },
+  pause: function()
+  {
+      timesUp = false; 
+      timeOut = setTimeout(stopwatch.count, 3000);
+      timeOut;
+      
+  },
+ }
+ stopwatch.start();
+
+ //begin result function
+ function result() {
+     $("#result").text()
+ }
