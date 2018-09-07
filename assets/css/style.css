@@ -1,7 +1,25 @@
 .answer:hover{
-background-color: red;
-}
-
-.container{
-    text-align: center;
-}
+    background-color: rgb(168, 236, 42);
+    }
+    
+    .container{
+        text-align: center;
+    }
+    body {
+        background-image: url(https://ak5.picdn.net/shutterstock/videos/3962305/thumb/1.jpg);
+        color: white;
+        background-repeat: no-repeat;
+        background-size: cover;
+        font-family: 'Baloo Tammudu', cursive;
+        font-size: small;
+    }
+    
+    .mycontainer {
+        margin-left: 50%;
+        margin-top: 10%;
+    }
+    
+    .timer {
+        font-size: xx-large;
+        color: yellow;
+    }

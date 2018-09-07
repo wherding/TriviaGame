@@ -27,30 +27,66 @@ $(document).ready( function(){
     var ran =  Math.floor(Math.random()*qa.length);
     currq = qa[ran];
     console.log("this is my random number: " +currq)
-    display(currq);
+    qa.forEach(e => {
+        display(e);    
+    });
+    
 })
 //need to  make buttons to click for the answers. maybe radio buttons? 
 //or divs? interesting. like boxes? for the drink ingreedents list. 
 //begin display()
 function display(y){
-    $("#question").empty(); 
-    $("#answers").empty(); 
-    $("#result").empty(); 
+    var q1 = $("<div>"); 
+
+   // $("#question").empty(); 
+    //$("#answers").empty(); 
+    //$("#result").empty(); 
    // document.getElementById("question").innerText = qo[0].question;
-   $("#question").text(y.question)
+   //$("#question").text(y.question)
+   var q = $("<div>");
+   q.text(y.question);
+   q1.append(q)
+   //$("#question").append(q);
     y.options.forEach(x => {
-        var qdiv = $("<div>");
-       qdiv.addClass("answer")
+        var qdiv = $("<input>");
+        qdiv.attr("type","radio");
+        qdiv.attr("value",x);
+        qdiv.attr("name",y.question);
+       qdiv.addClass(x);
+       var l = $("<label>");
+       l.text(x);
        //console.log(qa[1].options.indexOf(x)) /*could use this line to number questions but for now it messes up how i evaluate correct answers */
-        qdiv.text(x);
-        $("#answers").append(qdiv);
+        //qdiv.text(x);
+        
+      q1.append(qdiv);
+       q1.append(l);
+        q1.append("<br>");
         //document.getElementById("answers").innerText = x
+        $("#answers").append(q1);
     });
 }//end display
+$(".submit").on("click", function(){
+    var c = document.forms[0];
+    for (let index = 0; index < c.length; index++) {
+        if (c[i].checked) {
+            console.log(c[i].value)
+        }
+        console.log("clicked submit")
+    }
+    
+});
+$(document).on("click", "submit", function(){
+    var c = document.forms[0];
+    for (let index = 0; index < c.length; index++) {
+        if (c[i].checked) {
+            console.log(c[i].value)
+        }
+        console.log("clicked submit")
+    }
+})
 
 
-
-$(document).on("click", ".answer", function(){
+$(document).on("click", "answer", function(){
     console.log(this)
     var userClicked = this;
     $(userClicked).text();
@@ -90,7 +126,7 @@ function next(){
  //start reset
  reset: function() {
     stopwatch.time = 6;
-    next();
+    //next();
     stopwatch.start();
     $("#display").text(stopwatch.time);
     console.log("called reset()");
