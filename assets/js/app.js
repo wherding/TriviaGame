@@ -52,7 +52,7 @@ function display(y){
         qdiv.attr("type","radio");
         qdiv.attr("value",x);
         qdiv.attr("name",y.question);
-       qdiv.addClass(x);
+       qdiv.addClass("answer");
        var l = $("<label>");
        l.text(x);
        //console.log(qa[1].options.indexOf(x)) /*could use this line to number questions but for now it messes up how i evaluate correct answers */
@@ -86,12 +86,15 @@ $(document).on("click", "submit", function(){
 })
 
 
-$(document).on("click", "answer", function(){
+$(document).on("click", ".answer", function(){
     console.log(this)
     var userClicked = this;
+    //console.log("question: " +userClicked.name);
+    var index = jQuery.inArray(userClicked.name, qa)
+    console.log(index);
     $(userClicked).text();
     stopwatch.reset();
-    if ($(userClicked).text() === currq.right) {
+    if ($(userClicked).val() === currq.right) {
         console.log("correct!")
         $("#result").text("correct!");
     }
@@ -122,7 +125,7 @@ function next(){
  var timeOut;
 
  var stopwatch = {
- time:6,
+ time:200,
  //start reset
  reset: function() {
     stopwatch.time = 6;
