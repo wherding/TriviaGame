@@ -1,4 +1,6 @@
 var currq;
+var correct=0;
+var incorrect=0;
 var qa=[
     
     q2 ={ question:"what is in a mint julep?",
@@ -65,27 +67,21 @@ function display(y){
         $("#answers").append(q1);
     });
 }//end display
-$(".submit").on("click", function(){
-    var c = document.forms[0];
-    for (let index = 0; index < c.length; index++) {
-        if (c[i].checked) {
-            console.log(c[i].value)
-        }
-        console.log("clicked submit")
-    }
-    
-});
+
 $(document).on("click", "submit", function(){
-    var c = document.forms[0];
-    for (let index = 0; index < c.length; index++) {
-        if (c[i].checked) {
-            console.log(c[i].value)
+    Event.preventDefault();
+    $.each($("input[name='what is in a mint julep?']:checked"), function() {
+        if ($(this).val() === questions[0].correctAnswer) {
+          correct++;
         }
-        console.log("clicked submit")
-    }
+        else {
+          incorrect++;
+        }
+      });
+      $("#result").text("correct: "+correct)
 })
 
-
+/*
 $(document).on("click", ".answer", function(){
     console.log(this)
     var userClicked = this;
@@ -103,6 +99,7 @@ $(document).on("click", ".answer", function(){
     }
     next();
 })//end .answer click event
+*/
 
 //load next question
 function next(){
