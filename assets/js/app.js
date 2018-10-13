@@ -32,7 +32,21 @@ $(document).ready( function(){
     qa.forEach(e => {
         display(e);    
     });
+   
+    $("form").hide();
     
+})
+$(document).on("click","#start",function(){
+    //$("#answers").show();
+    $("form").show();
+    $("#display").show();
+    stopwatch.start();
+    $("#start").hide();
+    $("#result").empty();
+    $("#result").hide();
+    incorrect = 0;
+    correct = 0;
+   // $("radio").unchecked();
 })
 //need to  make buttons to click for the answers. maybe radio buttons? 
 //or divs? interesting. like boxes? for the drink ingreedents list. 
@@ -67,18 +81,61 @@ function display(y){
         $("#answers").append(q1);
     });
 }//end display
-
-$(document).on("click", "submit", function(){
-    Event.preventDefault();
+//this is where i evaluate if user selected correct answers
+$(document).on("click", ".submit", function(event){
+    event.preventDefault();
     $.each($("input[name='what is in a mint julep?']:checked"), function() {
-        if ($(this).val() === questions[0].correctAnswer) {
+        if ($(this).val() === qa[0].right) {
           correct++;
         }
         else {
           incorrect++;
         }
       });
-      $("#result").text("correct: "+correct)
+      $.each($("input[name='what is in an Old Fashioned?']:checked"), function() {
+        if ($(this).val() === qa[1].right) {
+          correct++;
+        }
+        else {
+          incorrect++;
+        }
+      });
+      $.each($("input[name='what is in a Manhattan?']:checked"), function() {
+        if ($(this).val() === qa[1].right) {
+          correct++;
+        }
+        else {
+          incorrect++;
+        }
+      });
+      $.each($("input[name='what is in a John Collins?']:checked"), function() {
+        if ($(this).val() === qa[1].right) {
+          correct++;
+        }
+        else {
+          incorrect++;
+        }
+      });
+      $.each($("input[name='what is in an Angel face?']:checked"), function() {
+        if ($(this).val() === qa[1].right) {
+          correct++;
+        }
+        else {
+          incorrect++;
+        }
+      });
+
+      //hide questions:
+      $("form").hide();
+      $("#display").hide();
+      stopwatch.stop();
+      //display results
+      var correctDiv = $("<div>").text("correct: "+correct);
+      var incorrectDiv = $("<div>").text("incorrect: "+incorrect);
+
+      $("#result").append(correctDiv, incorrectDiv);
+      $("#result").show();
+      $("#start").show();
 })
 
 /*
@@ -137,6 +194,7 @@ function next(){
   
     // DONE: Use setInterval to start the count here and set the clock to running.
     if (!clockRunning) {
+        stopwatch.time=200;
       intervalId = setInterval(stopwatch.count, 1000);
       clockRunning = true;
     } 
@@ -163,8 +221,12 @@ function next(){
       timeOut;
       
   },
+  stop: function(){
+    clearInterval(intervalId)
+    clockRunning = false;
+  },
  }
- stopwatch.start();
+ //stopwatch.start();
 
  //begin result function
  function result() {
