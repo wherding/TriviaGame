@@ -1,4 +1,6 @@
 var currq;
+var correct=0;
+var incorrect=0;
 var qa=[
     
     q2 ={ question:"what is in a mint julep?",
@@ -30,7 +32,21 @@ $(document).ready( function(){
     qa.forEach(e => {
         display(e);    
     });
+   
+    $("form").hide();
     
+})
+$(document).on("click","#start",function(){
+    //$("#answers").show();
+    $("form").show();
+    $("#display").show();
+    stopwatch.start();
+    $("#start").hide();
+    $("#result").empty();
+    $("#result").hide();
+    incorrect = 0;
+    correct = 0;
+   // $("radio").unchecked();
 })
 //need to  make buttons to click for the answers. maybe radio buttons? 
 //or divs? interesting. like boxes? for the drink ingreedents list. 
@@ -52,7 +68,7 @@ function display(y){
         qdiv.attr("type","radio");
         qdiv.attr("value",x);
         qdiv.attr("name",y.question);
-       qdiv.addClass(x);
+       qdiv.addClass("answer");
        var l = $("<label>");
        l.text(x);
        //console.log(qa[1].options.indexOf(x)) /*could use this line to number questions but for now it messes up how i evaluate correct answers */
@@ -65,33 +81,74 @@ function display(y){
         $("#answers").append(q1);
     });
 }//end display
-$(".submit").on("click", function(){
-    var c = document.forms[0];
-    for (let index = 0; index < c.length; index++) {
-        if (c[i].checked) {
-            console.log(c[i].value)
+//this is where i evaluate if user selected correct answers
+$(document).on("click", ".submit", function(event){
+    event.preventDefault();
+    $.each($("input[name='what is in a mint julep?']:checked"), function() {
+        if ($(this).val() === qa[0].right) {
+          correct++;
         }
-        console.log("clicked submit")
-    }
-    
-});
-$(document).on("click", "submit", function(){
-    var c = document.forms[0];
-    for (let index = 0; index < c.length; index++) {
-        if (c[i].checked) {
-            console.log(c[i].value)
+        else {
+          incorrect++;
         }
-        console.log("clicked submit")
-    }
+      });
+      $.each($("input[name='what is in an Old Fashioned?']:checked"), function() {
+        if ($(this).val() === qa[1].right) {
+          correct++;
+        }
+        else {
+          incorrect++;
+        }
+      });
+      $.each($("input[name='what is in a Manhattan?']:checked"), function() {
+        if ($(this).val() === qa[1].right) {
+          correct++;
+        }
+        else {
+          incorrect++;
+        }
+      });
+      $.each($("input[name='what is in a John Collins?']:checked"), function() {
+        if ($(this).val() === qa[1].right) {
+          correct++;
+        }
+        else {
+          incorrect++;
+        }
+      });
+      $.each($("input[name='what is in an Angel face?']:checked"), function() {
+        if ($(this).val() === qa[1].right) {
+          correct++;
+        }
+        else {
+          incorrect++;
+        }
+      });
+
+      //hide questions:
+      $("form").hide();
+      $("#display").hide();
+      stopwatch.stop();
+      //display results
+      var correctDiv = $("<div>").text("correct: "+correct);
+      var incorrectDiv = $("<div>").text("incorrect: "+incorrect);
+
+      $("#result").append(correctDiv, incorrectDiv);
+      $("#result").show();
+      $("#start").show();
+      clearRadio();
 })
 
-
-$(document).on("click", "answer", function(){
+/*
+$(document).on("click", ".answer", function(){
     console.log(this)
     var userClicked = this;
+    //console.log("question: " +userClicked.name);
+    var index = jQuery.inArray(userClicked.name, qa)
+    console.log(index);
     $(userClicked).text();
     stopwatch.reset();
-    if ($(userClicked).text() === currq.right) {
+    if ($(userClicked).val() === currq.right) {
         console.log("correct!")
         $("#result").text("correct!");
     }
@@ -100,6 +157,7 @@ $(document).on("click", "answer", function(){
     }
     next();
 })//end .answer click event
+*/
 
 //load next question
 function next(){
@@ -122,7 +180,7 @@ function next(){
  var timeOut;
 
  var stopwatch = {
- time:6,
+ time:200,
  //start reset
  reset: function() {
     stopwatch.time = 6;
@@ -137,6 +195,7 @@ function next(){
   
     // DONE: Use setInterval to start the count here and set the clock to running.
     if (!clockRunning) {
+        stopwatch.time=200;
       intervalId = setInterval(stopwatch.count, 1000);
       clockRunning = true;
     } 
@@ -163,10 +222,21 @@ function next(){
       timeOut;
       
   },
+  stop: function(){
+    clearInterval(intervalId)
+    clockRunning = false;
+  },
  }
- stopwatch.start();
+ //stopwatch.start();
 
  //begin result function
  function result() {
      $("#result").text()
+ }
+
+ function clearRadio(){
+   console.log("called clear()")
+  $.each($("input[type='radio']:checked"),function(){
+    this.checked = false;
+  })
  }
