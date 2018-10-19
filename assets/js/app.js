@@ -136,6 +136,7 @@ $(document).on("click", ".submit", function(event){
       $("#result").append(correctDiv, incorrectDiv);
       $("#result").show();
       $("#start").show();
+      clearRadio();
 })
 
 /*
@@ -231,4 +232,11 @@ function next(){
  //begin result function
  function result() {
      $("#result").text()
+ }
+
+ function clearRadio(){
+   console.log("called clear()")
+  $.each($("input[type='radio']:checked"),function(){
+    this.checked = false;
+  })
  }
